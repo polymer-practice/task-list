@@ -1,13 +1,53 @@
-<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="./bower_components/polymer/polymer-element.html">
+<link rel="import" href="./bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="./bower_components/task-element">
 
 <dom-module id="task-list">
   <template>
     <style>
       :host {
         display: block;
+        --primary-color: var(--primary-color-task-form, #3f51b5);
+        --secundary-color: var(--secundary-color-task-form, #ffffff);
+      }
+
+      .list {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      .filter-input {
+        border: 1px solid #ccc;
+        height: 35px;
+        width: 100%;
+        margin: 5px 0px;
+        border-radius: 4px;
+        font-size: 20px;
+      }
+
+      .filter-input:focus {
+        outline: none;
+        border: 3px solid var(--primary-color);
       }
     </style>
-    <h2>Hello [[prop1]]!</h2>
+    <div class="todo-list">
+      <form>
+        <label for="filter-input">Task filter</label>
+        <input type="text" name="filter-input" class="filter-input" value={{textFilter::input}}>
+      </form>
+      <ul class="list">
+        <template is="dom-repeat" items="[[taskList]]" sort="sortTask" filter="{{titleFilter(textFilter)}}">
+          <li>
+            <task-element
+            key="[[index]]"
+            canceled="[[item.canceled]]"
+            done="[[item.done]]"
+            title="[[item.title]]"
+            ></task-element>
+          </li>
+        </template>
+      </ul>
+    </div>
   </template>
 
   <script>
@@ -18,8 +58,31 @@
           taskList: {
             type: Array,
             value: []
+          },
+          textFilter: {
+            type: String,
+            value: ''
           }
         };
+      }
+
+      sortTask(prevTask, currentTask) {
+        let pointsPrevTask = prevTask.done + (prevTask.canceled * 2);
+        let pointsCurrentTask = currentTask.done + (currentTask.canceled * 2);
+
+        return pointsPrevTask - pointsCurrentTask;
+      }
+
+      titleFilter(text) {
+        let result = null;
+
+        if (text){
+          result = function (task) {
+            return task.title.indexOf(text) > -1
+          }
+        }
+
+        return result;
       }
     }
 

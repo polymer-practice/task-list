@@ -6,10 +6,10 @@
 
     <title>task-list demo</title>
 
-    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../bower_components/webcomponentsjs/webcomponents-loader.js"></script>
 
-    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../bower_components/iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../bower_components/iron-demo-helpers/demo-snippet.html">
     <link rel="import" href="../task-list.html">
 
     <custom-style>
@@ -22,8 +22,40 @@
       <h3>Basic task-list demo</h3>
       <demo-snippet>
         <template>
-          <task-list></task-list>
+          <task-list id="my-task-list"></task-list>
         </template>
+        <script>
+          const taskListElement = document.getElementById('my-task-list');
+          const theList = [
+            {
+              title: 'Learn Polymer',
+              canceled: false,
+              done: false
+            },
+            {
+              title: 'Learn Java',
+              canceled: true,
+              done: false
+            },
+            {
+              title: 'Learn SQL',
+              canceled: false,
+              done: true
+            },
+            {
+              title: 'Learn Web Components',
+              canceled: false,
+              done: false
+            },
+            {
+              title: 'Learn English',
+              canceled: false,
+              done: true
+            }
+          ];
+
+          taskListElement.taskList = theList;
+        </script>
       </demo-snippet>
     </div>
   </body>
