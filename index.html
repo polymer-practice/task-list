@@ -39,7 +39,7 @@
         <template is="dom-repeat" items="[[taskList]]" sort="sortTask" filter="{{titleFilter(textFilter)}}">
           <li>
             <task-element
-            key="[[index]]"
+            key="[[item.key]]"
             canceled="[[item.canceled]]"
             done="[[item.done]]"
             title="[[item.title]]"
